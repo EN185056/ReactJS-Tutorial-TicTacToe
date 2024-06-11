@@ -12,7 +12,7 @@ function Square({ value, onSquareClick }) {
 }
 
 
-export default function Board() {
+export function Board() {
   const [xIsNext, setXIsNext] = useState(true); // each time a player moves, this boolean will flip to determine which player goes next and saves the game's state
   const [squares, setSquares] = useState(Array(9).fill(null)); // creates an array with 9 elements and sets each to null
 
@@ -49,6 +49,20 @@ export default function Board() {
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />;
       </div>
     </>
+  );
+}
+
+
+export default function Game() {
+  return (
+    <div className='game'>
+      <div className='game-board'>
+        <Board />
+      </div>
+      <div className='game-info'>
+        <ol>{}</ol>
+      </div>
+    </div>
   );
 }
 
