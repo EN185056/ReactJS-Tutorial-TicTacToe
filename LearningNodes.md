@@ -11,6 +11,9 @@
   - `.___` = selector that defines the style of any component where the className property is set to ___
 - `index.js` = the bridge between components and the web browser
 - `{___}` = curly braces; used to escape from JSX into JavaScript
+- `state` = used by components to remember things
+- `useState` = special React function that can be called by a componbent to let it remember things
+
 
 ## React Requirements
 1. React components need to return a single JSX element and not multiple adjacent JSX elements
@@ -32,3 +35,7 @@ Locally:
 ```
 npm start
 ```
+Access [HERE](http://localhost:3000/)
+
+## Tools
+[React Developer Tools (Chrome)](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
