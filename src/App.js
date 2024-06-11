@@ -12,12 +12,14 @@ function Square({ value, onSquareClick }) {
 }
 
 export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true); // each time a player moves, this boolean will flip to determine which player goes next and saves the game's state
   const [squares, setSquares] = useState(Array(9).fill(null)); // creates an array with 9 elements and sets each to null
 
   function handleClick(i) {
     const nextSquares = squares.slice();
-    nextSquares[i] = "X";
+    nextSquares[i] = (xIsNext) ? "X" : "O";
     setSquares(nextSquares);
+    setXIsNext(!xIsNext);
   }
 
   return (
