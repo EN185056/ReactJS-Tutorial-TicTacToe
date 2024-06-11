@@ -16,6 +16,10 @@ export default function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null)); // creates an array with 9 elements and sets each to null
 
   function handleClick(i) {
+    if (squares[i]) { // checks to make sure that the square tile does not already have a mark
+      return;
+    }
+
     const nextSquares = squares.slice();
     nextSquares[i] = (xIsNext) ? "X" : "O";
     setSquares(nextSquares);
