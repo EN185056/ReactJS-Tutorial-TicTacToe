@@ -13,6 +13,7 @@
 - `{___}` = curly braces; used to escape from JSX into JavaScript
 - `state` = used by components to remember things
 - `useState` = special React function that can be called by a componbent to let it remember things
+- `props` = allows a parent component to pass a state back down to its children that keeps them in sync with each other and their parent
 
 
 ## React Requirements
