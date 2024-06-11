@@ -10,6 +10,7 @@
   - `*` and `body` = define the style of large parts of the app
   - `.___` = selector that defines the style of any component where the className property is set to ___
 - `index.js` = the bridge between components and the web browser
+- `{___}` = curly braces; used to escape from JSX into JavaScript
 
 ## React Requirements
 1. React components need to return a single JSX element and not multiple adjacent JSX elements
