@@ -11,12 +11,13 @@ function Square({ value, onSquareClick }) {
   );
 }
 
+
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true); // each time a player moves, this boolean will flip to determine which player goes next and saves the game's state
   const [squares, setSquares] = useState(Array(9).fill(null)); // creates an array with 9 elements and sets each to null
 
   function handleClick(i) {
-    if (squares[i]) { // checks to make sure that the square tile does not already have a mark
+    if (squares[i] || checkWinner(squares)) { // checks to make sure that the square tile does not already have a mark or if a winner has been decided
       return;
     }
 
@@ -45,4 +46,31 @@ export default function Board() {
       </div>
     </>
   );
+}
+
+
+//===[ NOT COMPONENTS ]===
+
+function checkWinner(squares) {
+  /*
+  Iteratively checks all 9 valid ways to win in Tic-Tac-Toe
+  */
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+
+  for (var i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] == squares[b] && squares[a] == squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
 }
