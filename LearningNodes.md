@@ -26,3 +26,9 @@ export default function Square() {
 - `default` = keyword taht tells other files in the code that the attributed function is the main funciton of the file
 - `return` = JavaScript keyword that means whatever comes after is returned as a value to the function's caller
 - `<button>` = JSX element
+
+## Run Project
+Locally:
+```
+npm start
+```
