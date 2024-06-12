@@ -15,7 +15,7 @@ function Square({ value, onSquareClick }) {
 export function Board({xIsNext, squares, onPlay, sideSize}) {
 
   function handleClick(i) {
-    if (squares[i] || checkWinner(squares)) { // checks to make sure that the square tile does not already have a mark or if a winner has been decided
+    if (squares[i] || checkWinner(squares, sideSize)) { // checks to make sure that the square tile does not already have a mark or if a winner has been decided
       return;
     }
 
@@ -24,21 +24,18 @@ export function Board({xIsNext, squares, onPlay, sideSize}) {
     onPlay(nextSquares);
   }
 
-  const winner = checkWinner(squares);
+  const winner = checkWinner(squares, sideSize);
   let status = (winner) ? ("Winner: " + winner) : ("Next Player: " + (xIsNext ? "X" : "O"));
 
   function generateSquareBoard(sideSize) {
     const row = []
     for (let i = 0; i < sideSize; i++) {
-      // console.log("ROW START\ni = " + i)
       const col = []
       for (let j = sideSize * i; j < (sideSize * (i + 1)); j++) {
-        // console.log("j = " + j);
         col.push(<Square key={j} value={squares[j]} onSquareClick={() => handleClick(j)} />);
       }
       row.push(<div key={i} className="board-row">{col}</div>);
     }
-    // console.log(board);
     return row;
   }
 
@@ -54,7 +51,8 @@ export function Board({xIsNext, squares, onPlay, sideSize}) {
 
 
 export default function Game() {
-  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const sideSize = 4;
+  const [history, setHistory] = useState([Array(sideSize ** 2).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
@@ -82,7 +80,7 @@ export default function Game() {
   return (
     <div className='game'>
       <div className='game-board'>
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} sideSize={3}/>
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} sideSize={sideSize}/>
       </div>
       <div className='game-info'>
         <ol>{moves}</ol>
@@ -94,26 +92,55 @@ export default function Game() {
 
 //===[ NOT COMPONENTS ]===
 
-function checkWinner(squares) {
+function checkWinner(squares, sideSize) {
   /*
-  Iteratively checks all 9 valid ways to win in Tic-Tac-Toe
+  Iteratively checks all valid ways to win in Tic-Tac-Toe
   */
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
+  console.log("Checking Winner: " + squares);
+  let arr;
 
-  for (var i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] == squares[b] && squares[a] == squares[c]) {
-      return squares[a];
+  // Check each row
+  const allEqual = arr => arr.every(val => val != null && val === arr[0]);
+
+  for (let i = 0; i < squares.length; i += sideSize) {
+    console.log(i, squares.length)
+    arr = squares.slice(i, i + sideSize);
+    if (allEqual(arr)) {
+      console.log("Row Victory: " + arr + " " + arr.length + " " + i);
+      return arr[0];
     }
   }
+
+  // Check each column
+  for (let i = 0; i < sideSize; i++) {
+    arr = [];
+    for (let j = i; j < squares.length; j += sideSize) {
+      arr.push(squares[j]);
+    }
+    if (allEqual(arr)) {
+      console.log("Col Victory: " + arr);
+      return arr[0];
+    }
+  }
+
+  // Check topleft-botright diagonal
+  for (let i = 0; i < sideSize; i ++) {
+    arr[i] = squares[i * (sideSize + 1)]
+  }
+  if (allEqual(arr)) {
+    console.log("TL-BR Victory: " + arr);
+    return arr[0];
+  }
+
+  // Check topright-botleft diagonal
+  for (let i = 0; i < sideSize; i ++) {
+    arr[i] = squares[(i + 1) * (sideSize - 1)]
+  }
+  if (allEqual(arr)) {
+    console.log("TR-BL Victory: " + arr);
+    return arr[0];
+  }
+
+  // Neither player has won
   return null;
 }
