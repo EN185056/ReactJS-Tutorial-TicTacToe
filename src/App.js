@@ -12,7 +12,7 @@ function Square({ value, onSquareClick }) {
 }
 
 
-export function Board({xIsNext, squares, onPlay}) {
+export function Board({xIsNext, squares, onPlay, sideSize}) {
 
   function handleClick(i) {
     if (squares[i] || checkWinner(squares)) { // checks to make sure that the square tile does not already have a mark or if a winner has been decided
@@ -27,24 +27,27 @@ export function Board({xIsNext, squares, onPlay}) {
   const winner = checkWinner(squares);
   let status = (winner) ? ("Winner: " + winner) : ("Next Player: " + (xIsNext ? "X" : "O"));
 
+  function generateSquareBoard(sideSize) {
+    const row = []
+    for (let i = 0; i < sideSize; i++) {
+      // console.log("ROW START\ni = " + i)
+      const col = []
+      for (let j = sideSize * i; j < (sideSize * (i + 1)); j++) {
+        // console.log("j = " + j);
+        col.push(<Square key={j} value={squares[j]} onSquareClick={() => handleClick(j)} />);
+      }
+      row.push(<div key={i} className="board-row">{col}</div>);
+    }
+    // console.log(board);
+    return row;
+  }
+
   return (
     <>
       <div className='status'>{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+      {
+      generateSquareBoard(sideSize)
+      }
     </>
   );
 }
@@ -79,7 +82,7 @@ export default function Game() {
   return (
     <div className='game'>
       <div className='game-board'>
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/>
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} sideSize={3}/>
       </div>
       <div className='game-info'>
         <ol>{moves}</ol>
