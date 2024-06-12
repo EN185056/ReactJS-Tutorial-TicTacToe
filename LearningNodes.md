@@ -41,7 +41,7 @@ Locally:
 npm start
 ```
 Access [HERE](http://localhost:3000/)
-
+> In Chrome, access console with "option + command + j"
 
 ## Tools
 [React Developer Tools (Chrome)](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
