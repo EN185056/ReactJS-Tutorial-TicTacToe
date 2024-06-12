@@ -45,3 +45,20 @@ Access [HERE](http://localhost:3000/)
 
 ## Tools
 [React Developer Tools (Chrome)](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+
+
+## HTML
+### Elements
+-  `<div>` - by default a block element (takes all available width, and comes with line breaks before and after); used as a container for other HTML elements
+
+### [Basic Formatting](https://www.w3schools.com/html/html_formatting.asp)
+- `<b>` - Bold text
+- `<del>` - Deleted text
+- `<em>` - Emphasized text
+- `<i>` - Italic text
+- `<ins>` - Inserted text
+- `<mark>` - Marked text
+- `<small>` - Smaller text
+- `<strong>` - Important text
+- `<sub>` - Subscript text
+- `<sup>` - Superscript text
