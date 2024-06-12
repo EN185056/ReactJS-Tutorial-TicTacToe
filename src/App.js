@@ -14,8 +14,10 @@ function Square({ value, onSquareClick }) {
 
 export function Board({xIsNext, squares, onPlay, sideSize}) {
 
+  const winner = checkWinner(squares, sideSize);
+
   function handleClick(i) {
-    if (squares[i] || checkWinner(squares, sideSize)) { // checks to make sure that the square tile does not already have a mark or if a winner has been decided
+    if (squares[i] || winner) { // checks to make sure that the square tile does not already have a mark or if a winner has been decided
       return;
     }
 
@@ -24,8 +26,14 @@ export function Board({xIsNext, squares, onPlay, sideSize}) {
     onPlay(nextSquares);
   }
 
-  const winner = checkWinner(squares, sideSize);
-  let status = (winner) ? ("Winner: " + winner) : ("Next Player: " + (xIsNext ? "X" : "O"));
+  let status;
+  if (winner) {
+    status = "The winner is " + winner + "!";
+  } else if (squares.every(val => val != null)) {
+    status = "You have achieved a TIE!"
+  } else {
+    status = "Next Player: " + (xIsNext ? "X" : "O")
+  }
 
   function generateSquareBoard(sideSize) {
     const row = []
@@ -51,7 +59,7 @@ export function Board({xIsNext, squares, onPlay, sideSize}) {
 
 
 export default function Game() {
-  const sideSize = 4;
+  const sideSize = 5;
   const [history, setHistory] = useState([Array(sideSize ** 2).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
@@ -96,17 +104,14 @@ function checkWinner(squares, sideSize) {
   /*
   Iteratively checks all valid ways to win in Tic-Tac-Toe
   */
-  console.log("Checking Winner: " + squares);
   let arr;
 
   // Check each row
   const allEqual = arr => arr.every(val => val != null && val === arr[0]);
 
   for (let i = 0; i < squares.length; i += sideSize) {
-    console.log(i, squares.length)
     arr = squares.slice(i, i + sideSize);
     if (allEqual(arr)) {
-      console.log("Row Victory: " + arr + " " + arr.length + " " + i);
       return arr[0];
     }
   }
@@ -118,7 +123,6 @@ function checkWinner(squares, sideSize) {
       arr.push(squares[j]);
     }
     if (allEqual(arr)) {
-      console.log("Col Victory: " + arr);
       return arr[0];
     }
   }
@@ -128,7 +132,6 @@ function checkWinner(squares, sideSize) {
     arr[i] = squares[i * (sideSize + 1)]
   }
   if (allEqual(arr)) {
-    console.log("TL-BR Victory: " + arr);
     return arr[0];
   }
 
@@ -137,7 +140,6 @@ function checkWinner(squares, sideSize) {
     arr[i] = squares[(i + 1) * (sideSize - 1)]
   }
   if (allEqual(arr)) {
-    console.log("TR-BL Victory: " + arr);
     return arr[0];
   }
 
